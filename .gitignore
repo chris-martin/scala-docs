@@ -1,0 +1,9 @@
+*.class
+*.jar
+*.log
+.scala_dependencies
+.worksheet
+.gradle
+build/
+gradle-app.setting
+!gradle-wrapper.jar

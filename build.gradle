@@ -1,0 +1,46 @@
+apply plugin: 'java'
+apply plugin: 'scala'
+apply plugin: 'application'
+apply plugin: 'org.ajoberstar.github-pages'
+
+mainClassName = 'scala_docs.App'
+
+compileJava {
+    sourceCompatibility = 1.7
+    targetCompatibility = 1.7
+}
+
+compileScala {
+    scalaCompileOptions.additionalParameters = ['-deprecation', '-feature']
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'http://dl.bintray.com/scalaz/releases'
+    }
+}
+
+dependencies {
+    compile 'org.scala-lang:scala-library:2.11.7'
+    compile 'org.scalaz:scalaz-core_2.11:7.1.1'
+    compile 'org.scalaz.stream:scalaz-stream_2.11:0.7.3a'
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.ajoberstar:gradle-git:1.3.0'
+    }
+}
+
+githubPages {
+    repoUri = 'git@github.com:chris-martin/scala-docs.git'
+    pages {
+        from('build/scala-docs')
+    }
+}
+
+prepareGhPages.dependsOn run
