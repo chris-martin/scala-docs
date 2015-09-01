@@ -6,6 +6,8 @@ import java.util.zip.{ZipInputStream, ZipEntry}
 
 import scodec.bits.ByteVector
 
+import scalaz.concurrent.Task
+
 /**
  * Times are in milliseconds since the epoch. Sizes are in number of bytes.
  */
@@ -47,8 +49,8 @@ object ZipMeta {
     override def fromZipEntry(entry: ZipEntry): ZipMeta =
       ZipMeta.fromZipEntry(entry)
 
-    override def openStream(is: InputStream): ZipInputStream =
-      new ZipInputStream(is)
+    override def openStream(is: InputStream): Task[ZipInputStream] =
+      Task.delay { new ZipInputStream(is) }
   }
 
 }

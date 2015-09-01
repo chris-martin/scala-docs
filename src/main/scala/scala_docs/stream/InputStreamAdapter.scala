@@ -1,4 +1,4 @@
-package scala_docs.zipfile
+package scala_docs.stream
 
 import java.io.InputStream
 

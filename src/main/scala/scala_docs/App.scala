@@ -21,7 +21,7 @@ object App extends SafeApp {
   def jarInputStream = new FileInputStream(Paths.get(jarFile).toFile)
 
   val foo: Task[Unit] =
-    zipfile.entriesResourceR[ZipMeta](jarInputStream)
+    zipfile.zipEntriesR[ZipMeta](jarInputStream)
       .filter(_.meta.name.endsWith(".class"))
       .evalMap[Task, Unit](x => {
         Task.delay(println(

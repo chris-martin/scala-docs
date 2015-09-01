@@ -6,6 +6,8 @@ import java.security.cert.Certificate
 import java.util.jar.{JarInputStream, Attributes, JarEntry}
 import java.util.zip.{ZipInputStream, ZipEntry}
 
+import scalaz.concurrent.Task
+
 case class JarMeta(
   zipEntry: ZipMeta,
   manifestAttributes: Option[Attributes],
@@ -27,8 +29,8 @@ object JarMeta {
     override def fromZipEntry(entry: ZipEntry): JarMeta =
       fromJarEntry(entry.asInstanceOf[JarEntry])
 
-    override def openStream(is: InputStream): ZipInputStream =
-      new JarInputStream(is)
+    override def openStream(is: InputStream): Task[ZipInputStream] =
+      Task.delay { new JarInputStream(is) }
 
   }
 
