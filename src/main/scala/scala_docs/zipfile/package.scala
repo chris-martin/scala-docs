@@ -38,9 +38,7 @@ package object zipfile {
    * Reads all of the meta-and-content from the zip stream.
    */
   def entriesR[A : ZipType](zis: ZipInputStream): Source[Entry[A]] =
-    for { meta    <- zipMetaR(zis)
-          content <- allBytesR(zis) }
-    yield MetaAndContent(meta, content)
+    zipMetaR(zis).zipWith(allBytesR(zis).repeat)(MetaAndContent.apply)
 
   def resource[A, B](open: Task[A], close: A => Task[Unit],
                      process: A => Source[B]): Source[B] =
